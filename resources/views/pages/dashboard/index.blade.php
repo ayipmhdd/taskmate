@@ -284,6 +284,8 @@
         .main-content {
             margin-left: 280px;
             /* 220px sidebar + 60px gap */
+            margin-right: 320px;
+            /* 260px right sidebar + 60px gap */
             padding: 20px;
             transition: margin-left 0.3s ease;
         }
@@ -292,6 +294,186 @@
         body.sidebar-collapsed .main-content {
             margin-left: 140px;
             /* 80px sidebar + 60px gap */
+        }
+
+        /* Right sidebar container */
+        .right-sidebar {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            width: 260px;
+            bottom: 40px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Calendar box - 70% of height */
+        .calendar-box {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 2px solid #e5e5e5;
+            flex: 7;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Calendar header image - dengan margin sama di semua sisi */
+        .calendar-image {
+            width: calc(100% - 24px);
+            height: 130px;
+            object-fit: cover;
+            display: block;
+            margin: 12px;
+            border-radius: 12px;
+        }
+
+        /* Calendar content */
+        .calendar-content {
+            padding: 0 16px 16px 16px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        /* Hide scrollbar in calendar */
+        .calendar-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .calendar-content {
+            scrollbar-width: none;
+        }
+
+        /* Calendar widget */
+        .calendar-widget {
+            margin-bottom: 0;
+        }
+
+        /* Calendar header - horizontal layout */
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 0;
+        }
+
+        .calendar-month {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1b1b18;
+        }
+
+        .calendar-year {
+            font-size: 16px;
+            font-weight: 400;
+            color: #6b7280;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0;
+            margin-top: 6px;
+        }
+
+        .calendar-day-name {
+            text-align: center;
+            font-size: 8px;
+            font-weight: 600;
+            color: #6b7280;
+            padding: 2px 0;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1.5 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .calendar-day:hover {
+            background: #f3f4f6;
+        }
+
+        .calendar-day.today {
+            background: #3b82f6;
+            color: white;
+            font-weight: 700;
+        }
+
+        .calendar-day.other-month {
+            color: #d1d5db;
+        }
+
+        /* Agenda box - 30% of height */
+        .agenda-box {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 2px solid #e5e5e5;
+            flex: 3;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Hide scrollbar in agenda */
+        .agenda-box::-webkit-scrollbar {
+            display: none;
+        }
+
+        .agenda-box {
+            scrollbar-width: none;
+        }
+
+        /* Agenda section */
+        .agenda-section {
+            flex: 1;
+        }
+
+        .agenda-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1b1b18;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e5e5e5;
+        }
+
+        .agenda-empty {
+            text-align: center;
+            padding: 24px 12px;
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        .agenda-item {
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid #3b82f6;
+        }
+
+        .agenda-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1b1b18;
+            margin-bottom: 4px;
+        }
+
+        .agenda-item-time {
+            font-size: 11px;
+            color: #6b7280;
         }
 
         /* Top bar di dalam content area */
@@ -376,22 +558,13 @@
     <div class="main-content">
         <!-- Content -->
         <div class="mb-12">
-            <div class="flex items-center gap-4 mb-2">
-                <!-- Toggle Button -->
-                <button class="sidebar-toggle-main" onclick="toggleSidebar()">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3 5h14M3 10h14M3 15h14" stroke="#1b1b18" stroke-width="2" stroke-linecap="round" />
-                    </svg>
-                </button>
-
-                <h2 class="text-4xl font-black tracking-tight">
-                    Selamat datang, {{ Auth::user()->name }}! 👋
-                </h2>
-            </div>
-            <p class="text-gray-500 font-medium">
-                Apa yang ingin kamu kerjakan hari ini di TaskMate?
-            </p>
+            <!-- Toggle Button -->
+            <button class="sidebar-toggle-main" onclick="toggleSidebar()">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 5h14M3 10h14M3 15h14" stroke="#1b1b18" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </button>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -437,6 +610,55 @@
         </div>
     </div>
 
+    <!-- Right Sidebar Container -->
+    <div class="right-sidebar">
+        <!-- Calendar Box -->
+        <div class="calendar-box">
+            <!-- Header Image -->
+            <img src="{{ Vite::asset('resources/images/calendar-header.jpg') }}" alt="Calendar Header"
+                class="calendar-image"
+                onerror="this.src='https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop'">
+
+            <!-- Calendar Content -->
+            <div class="calendar-content">
+                <div class="calendar-widget">
+                    <div class="calendar-header">
+                        <div class="calendar-month" id="calendarMonth">Januari</div>
+                        <div class="calendar-year" id="calendarYear">2026</div>
+                    </div>
+
+                    <div class="calendar-grid">
+                        <!-- Day names -->
+                        <div class="calendar-day-name">Min</div>
+                        <div class="calendar-day-name">Sen</div>
+                        <div class="calendar-day-name">Sel</div>
+                        <div class="calendar-day-name">Rab</div>
+                        <div class="calendar-day-name">Kam</div>
+                        <div class="calendar-day-name">Jum</div>
+                        <div class="calendar-day-name">Sab</div>
+
+                        <!-- Days will be appended by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Agenda Box -->
+        <div class="agenda-box">
+            <div class="agenda-section">
+                <div class="agenda-title">Agenda Hari Ini</div>
+                <div class="agenda-empty">
+                    Tidak ada agenda hari ini
+                </div>
+                <!-- Example agenda items (hidden by default) -->
+                <!-- <div class="agenda-item">
+                    <div class="agenda-item-title">Meeting Tim</div>
+                    <div class="agenda-item-time">09:00 - 10:00</div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
     <script>
         function checkScrollPosition() {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -468,6 +690,64 @@
             sidebar.classList.toggle('collapsed');
             document.body.classList.toggle('sidebar-collapsed');
         }
+
+        // Generate calendar
+        function generateCalendar() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth();
+            const today = now.getDate();
+
+            // Month names in Indonesian
+            const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            ];
+
+            // Update header
+            document.getElementById('calendarMonth').textContent = monthNames[month];
+            document.getElementById('calendarYear').textContent = year;
+
+            // Get first day of month and total days
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+            // Get the grid container
+            const grid = document.querySelector('.calendar-grid');
+
+            // Remove old date elements (keep day names)
+            const oldDates = grid.querySelectorAll('.calendar-day');
+            oldDates.forEach(el => el.remove());
+
+            // Previous month days
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const dayEl = document.createElement('div');
+                dayEl.className = 'calendar-day other-month';
+                dayEl.textContent = daysInPrevMonth - i;
+                grid.appendChild(dayEl);
+            }
+
+            // Current month days
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayEl = document.createElement('div');
+                dayEl.className = day === today ? 'calendar-day today' : 'calendar-day';
+                dayEl.textContent = day;
+                grid.appendChild(dayEl);
+            }
+
+            // Next month days to fill the grid
+            const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
+            const remainingCells = totalCells - (firstDay + daysInMonth);
+            for (let day = 1; day <= remainingCells; day++) {
+                const dayEl = document.createElement('div');
+                dayEl.className = 'calendar-day other-month';
+                dayEl.textContent = day;
+                grid.appendChild(dayEl);
+            }
+        }
+
+        // Initialize calendar on page load
+        window.addEventListener('load', generateCalendar);
     </script>
 </body>
 
