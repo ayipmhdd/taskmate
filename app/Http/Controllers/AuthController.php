@@ -65,9 +65,9 @@ class AuthController extends Controller
     {
         if (Auth::check()) {
             if (Auth::user()->role === 'admin') {
-                return view('dashboard.admin');
+                return view('admin.index');
             } else {
-                return view('dashboard.user');
+                return view('pages.dashboard.index');
             }
         }
 
