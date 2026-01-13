@@ -21,111 +21,32 @@
             /* Chrome, Safari, Opera */
         }
 
-        /* Container Frame Utama */
-        .page-frame-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            pointer-events: none;
-            z-index: 9999;
-        }
 
-        /* Border putih di sekeliling (Background Frame) */
-        .frame-border {
-            position: absolute;
-            background: white;
-        }
 
-        .frame-border-top {
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 20px;
-        }
-
-        .frame-border-left {
-            top: 0;
-            left: 0;
-            bottom: 0;
-            width: 20px;
-        }
-
-        .frame-border-right {
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 20px;
-        }
-
-        /* Border bawah putih hanya muncul saat di akhir scroll */
-        .frame-border-bottom {
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 20px;
-            background: white;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .frame-border-bottom.visible {
-            opacity: 1;
-        }
-
-        /* Garis Border Hitam Utama */
-        .page-border {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            right: 20px;
-            bottom: 0;
-            /* Default: nyambung ke bawah layar */
-            border-left: 2px solid #1b1b18;
-            border-right: 2px solid #1b1b18;
-            border-top: 2px solid #1b1b18;
-            border-bottom: none;
-            /* Hilangkan garis bawah saat scrolling */
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-            pointer-events: none;
-            z-index: 10000;
-            transition: bottom 0.3s ease, border-radius 0.3s ease;
-        }
-
-        /* Kondisi saat mencapai dasar halaman (Sesuai Video 2) */
-        .page-border.at-bottom {
-            bottom: 20px;
-            /* Tarik ke atas agar ada gap 20px */
-            border-bottom: 2px solid #1b1b18;
-            /* Munculkan garis bawah */
-            border-bottom-left-radius: 20px;
-            /* Bulatkan sudut */
-            border-bottom-right-radius: 20px;
+        /* Global Spacing System: 24px base unit */
+        :root {
+            --spacing-unit: 24px;
+            --sidebar-width: 220px;
+            --sidebar-collapsed-width: 80px;
+            --right-sidebar-width: 260px;
         }
 
         body {
-            padding: 20px 20px 0 20px;
-            /* Padding bawah diatur dinamis via content */
+            padding: 0;
+            margin: 0;
             box-sizing: border-box;
         }
 
-        /* Sidebar fixed di kiri */
+        /* Sidebar fixed di kiri - Consistent spacing */
         .sidebar {
             position: fixed;
-            top: 40px;
-            /* 20px frame + 20px spacing */
-            left: 40px;
-            /* 20px frame + 20px spacing */
-            width: 220px;
-            bottom: 40px;
-            /* 20px frame + 20px spacing */
+            top: var(--spacing-unit);
+            left: var(--spacing-unit);
+            width: var(--sidebar-width);
+            bottom: var(--spacing-unit);
             background: white;
             border-radius: 16px;
-            padding: 24px 16px;
+            padding: var(--spacing-unit) 16px;
             z-index: 100;
             overflow-y: auto;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
@@ -135,34 +56,82 @@
             transition: width 0.3s ease, padding 0.3s ease;
         }
 
-        /* Sidebar collapsed state */
+        /* Sidebar collapsed state - INSTANT transition */
         .sidebar.collapsed {
-            width: 80px;
-            padding: 24px 12px;
+            width: var(--sidebar-collapsed-width);
+            padding: var(--spacing-unit) 12px;
         }
 
-        /* Toggle button di main content */
-        .sidebar-toggle-main {
-            width: 40px;
-            height: 40px;
+        /* Floating Chevron Toggle Button - Aligned with spacing system */
+        .floating-toggle {
+            position: fixed;
+            top: 50%;
+            left: calc(var(--spacing-unit) + var(--sidebar-width) + (var(--spacing-unit) / 2));
+            /* 24px edge + 220px sidebar + 12px (center of gap) = 256px */
+            transform: translateY(-50%);
+            width: 26px;
+            height: 26px;
             background: white;
-            border: 2px solid #e5e5e5;
-            border-radius: 8px;
+            border: 1.5px solid #e5e5e5;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.2s ease;
-            flex-shrink: 0;
+            z-index: 10001;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            opacity: 0;
+            transition: opacity 0.15s ease, background 0.1s ease, border-color 0.1s ease;
+            pointer-events: auto;
         }
 
-        .sidebar-toggle-main:hover {
-            background: #f3f4f6;
+        /* Hover area trigger - wider invisible area */
+        .toggle-hover-area {
+            position: fixed;
+            top: 0;
+            left: calc(var(--spacing-unit) + var(--sidebar-width));
+            /* Start at sidebar edge: 24px + 220px = 244px */
+            width: calc(var(--spacing-unit) * 2);
+            /* Cover the gap area: 48px */
+            height: 100%;
+            z-index: 10000;
+            pointer-events: auto;
+        }
+
+        /* Show button on hover */
+        .toggle-hover-area:hover+.floating-toggle,
+        .floating-toggle:hover {
+            opacity: 1;
+        }
+
+        /* Button hover effect */
+        .floating-toggle:hover {
+            background: #f9fafb;
             border-color: #d1d5db;
         }
 
-        .sidebar-toggle-main:active {
-            transform: scale(0.95);
+        /* Button active effect */
+        .floating-toggle:active {
+            transform: translateY(-50%) scale(0.92);
+        }
+
+        /* Chevron icon */
+        .floating-toggle svg {
+            width: 12px;
+            height: 12px;
+            transition: none;
+            /* Instant icon change */
+        }
+
+        /* Position when sidebar collapsed */
+        body.sidebar-collapsed .floating-toggle {
+            left: calc(var(--spacing-unit) + var(--sidebar-collapsed-width) + (var(--spacing-unit) / 2));
+            /* 24px edge + 80px sidebar + 12px (center of gap) = 116px */
+        }
+
+        body.sidebar-collapsed .toggle-hover-area {
+            left: calc(var(--spacing-unit) + var(--sidebar-collapsed-width));
+            /* 24px + 80px = 104px */
         }
 
         /* Hide text when collapsed */
@@ -226,7 +195,7 @@
             background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             border-radius: 12px;
             padding: 20px 16px;
-            margin-bottom: 24px;
+            margin-bottom: var(--spacing-unit);
             text-align: center;
         }
 
@@ -280,33 +249,35 @@
             font-weight: 600;
         }
 
-        /* Main content area dengan margin untuk sidebar */
+        /* Main content area - Consistent 24px gap on all sides */
         .main-content {
-            margin-left: 280px;
-            /* 220px sidebar + 60px gap */
-            margin-right: 320px;
-            /* 260px right sidebar + 60px gap */
-            padding: 20px;
-            transition: margin-left 0.3s ease;
+            margin-left: calc(var(--sidebar-width) + var(--spacing-unit) * 2);
+            /* 220px sidebar + 24px left edge + 24px gap = 268px */
+            margin-right: calc(var(--right-sidebar-width) + var(--spacing-unit) * 2);
+            /* 260px right sidebar + 24px right edge + 24px gap = 308px */
+            margin-top: var(--spacing-unit);
+            /* 24px top spacing */
+            padding: 0;
+            transition: none;
         }
 
         /* Main content when sidebar collapsed */
         body.sidebar-collapsed .main-content {
-            margin-left: 140px;
-            /* 80px sidebar + 60px gap */
+            margin-left: calc(var(--sidebar-collapsed-width) + var(--spacing-unit) * 2);
+            /* 80px sidebar + 24px left edge + 24px gap = 128px */
         }
 
-        /* Right sidebar container */
+        /* Right sidebar container - Consistent spacing */
         .right-sidebar {
             position: fixed;
-            top: 40px;
-            right: 40px;
-            width: 260px;
-            bottom: 40px;
+            top: var(--spacing-unit);
+            right: var(--spacing-unit);
+            width: var(--right-sidebar-width);
+            bottom: var(--spacing-unit);
             z-index: 100;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: var(--spacing-unit);
         }
 
         /* Calendar box - 70% of height */
@@ -319,6 +290,12 @@
             flex: 7;
             display: flex;
             flex-direction: column;
+        }
+
+        /* Instant sidebar transition */
+        .sidebar {
+            transition: width 0s, padding 0s !important;
+            /* 0 delay - instant */
         }
 
         /* Calendar header image - dengan margin sama di semua sisi */
@@ -485,19 +462,391 @@
             margin-bottom: 32px;
             padding: 16px 0;
         }
+
+        /* Welcome Card Styles */
+        .welcome-card {
+            background: white;
+            border-radius: 20px;
+            border: 1px solid rgba(25, 20, 0, 0.08);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.02);
+            padding: var(--spacing-unit) 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .welcome-card:hover {
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.08);
+            border-color: rgba(59, 130, 246, 0.1);
+        }
+
+        .welcome-header {
+            margin-bottom: 8px;
+        }
+
+        .welcome-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1b1b18;
+            line-height: 1.3;
+        }
+
+        .welcome-subtitle {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .stats-section {
+            margin-top: auto;
+        }
+
+        .stats-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #9ca3af;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .stats-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: #f0fdf4;
+            border: 1px solid #86efac;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #16a34a;
+        }
+
+        .stats-badge-icon {
+            font-size: 10px;
+        }
+
+        /* Two Column Grid for Top Section */
+        .dashboard-top-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-unit);
+            margin-bottom: var(--spacing-unit);
+        }
+
+        /* Digital Clock Container - Updated for grid */
+        .digital-clock-container {
+            background: white;
+            border-radius: 20px;
+            border: 1px solid rgba(25, 20, 0, 0.08);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.02);
+            padding: var(--spacing-unit) 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .digital-clock-container:hover {
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.08);
+            border-color: rgba(59, 130, 246, 0.1);
+        }
+
+        .clock-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .clock-icon-wrapper {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+
+        .clock-icon {
+            font-size: 28px;
+        }
+
+        .clock-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .clock-time {
+            font-size: 48px;
+            font-weight: 800;
+            color: #1b1b18;
+            letter-spacing: -1px;
+            line-height: 1;
+            text-align: center;
+        }
+
+        .clock-seconds {
+            color: #3b82f6;
+        }
+
+        .clock-date {
+            font-size: 14px;
+            color: #6b7280;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .clock-greeting {
+            font-size: 13px;
+            color: #1b1b18;
+            font-weight: 600;
+            padding: 6px 14px;
+            background: #eff6ff;
+            border-radius: 8px;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        /* Quick Actions Styles */
+        .quick-actions-container {
+            background: white;
+            border-radius: 20px;
+            border: 1px solid rgba(25, 20, 0, 0.08);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.02);
+            padding: var(--spacing-unit);
+            margin-bottom: var(--spacing-unit);
+        }
+
+        .quick-actions-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1b1b18;
+            margin-bottom: 16px;
+        }
+
+        .quick-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .quick-action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 16px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .quick-action-btn:hover {
+            background: #eff6ff;
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+        }
+
+        .quick-action-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .quick-action-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1b1b18;
+            text-align: center;
+        }
+
+        /* Recent Activity Styles */
+        .recent-activity-container {
+            background: white;
+            border-radius: 20px;
+            border: 1px solid rgba(25, 20, 0, 0.08);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.02);
+            padding: var(--spacing-unit);
+            margin-bottom: var(--spacing-unit);
+        }
+
+        .recent-activity-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1b1b18;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f3f4f6;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            transition: background 0.2s ease;
+        }
+
+        .activity-item:hover {
+            background: #f9fafb;
+        }
+
+        .activity-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .activity-icon.blue {
+            background: #eff6ff;
+            color: #3b82f6;
+        }
+
+        .activity-icon.green {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+
+        .activity-icon.purple {
+            background: #faf5ff;
+            color: #9333ea;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-text {
+            font-size: 13px;
+            color: #1b1b18;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .activity-time {
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        .activity-empty {
+            text-align: center;
+            padding: 32px 16px;
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        /* Responsive Design - Consistent spacing on all screen sizes */
+        @media (max-width: 768px) {
+
+            /* Reduce spacing unit for mobile */
+            :root {
+                --spacing-unit: 16px;
+            }
+
+            body {
+                padding: var(--spacing-unit);
+            }
+
+            /* Hide sidebars on mobile, show only main content */
+            .sidebar,
+            .right-sidebar,
+            .floating-toggle,
+            .toggle-hover-area {
+                display: none;
+            }
+
+            /* Full width main content on mobile */
+            .main-content {
+                margin-left: 0;
+                margin-right: 0;
+                padding: 0;
+            }
+
+            /* Stack columns on mobile */
+            .dashboard-top-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Clock container adjustments */
+            .digital-clock-container {
+                padding: var(--spacing-unit);
+            }
+
+            .clock-time {
+                font-size: 36px;
+            }
+
+            .clock-icon-wrapper {
+                width: 48px;
+                height: 48px;
+            }
+
+            .clock-icon {
+                font-size: 24px;
+            }
+
+            /* Welcome card mobile adjustments */
+            .welcome-card {
+                padding: var(--spacing-unit);
+            }
+
+            .welcome-title {
+                font-size: 20px;
+            }
+        }
+
+        /* Tablet adjustments */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            :root {
+                --spacing-unit: 20px;
+                --sidebar-width: 180px;
+                --right-sidebar-width: 220px;
+            }
+        }
+
+        /* Desktop - show greeting */
+        @media (min-width: 1024px) {
+            .clock-greeting {
+                display: block;
+            }
+        }
     </style>
 </head>
 
 <body class="h-full font-sans antialiased text-[#1b1b18]">
 
-    <div class="page-frame-container">
-        <div class="frame-border frame-border-top"></div>
-        <div class="frame-border frame-border-left"></div>
-        <div class="frame-border frame-border-right"></div>
-        <div class="frame-border frame-border-bottom"></div>
-    </div>
+    <!-- Floating Toggle Hover Area -->
+    <div class="toggle-hover-area"></div>
 
-    <div class="page-border"></div>
+    <!-- Floating Chevron Toggle Button -->
+    <button class="floating-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+        <svg id="chevronIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+    </button>
 
     <!-- Sidebar Fixed -->
     <aside class="sidebar" id="sidebar">
@@ -556,58 +905,101 @@
 
     <!-- Main Content Area -->
     <div class="main-content">
-        <!-- Content -->
-        <div class="mb-12">
-            <!-- Toggle Button -->
-            <button class="sidebar-toggle-main" onclick="toggleSidebar()">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 5h14M3 10h14M3 15h14" stroke="#1b1b18" stroke-width="2" stroke-linecap="round" />
-                </svg>
-            </button>
-        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div
-                class="group bg-white p-8 rounded-2xl border border-[#19140015] shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:shadow-[0_8px_30_rgb(59,130,246,0.08)] transition-all border-l-4 border-l-blue-600">
-                <div class="flex flex-col h-full">
-                    <h3 class="text-xl font-bold mb-3">Tugas & Kanban</h3>
-                    <p class="text-gray-500 text-sm mb-6 leading-relaxed">
-                        Kelola semua tugasmu dalam satu papan visual. Geser tugas dari 'To Do' ke 'Done' dengan mudah.
-                    </p>
-                    <div class="mt-auto">
-                        <a href="{{ route('tasks.index') }}"
-                            class="inline-flex items-center justify-center w-full sm:w-auto px-6 py-3 rounded-xl bg-blue-600 text-white text-sm font-bold shadow-lg shadow-blue-600/20 hover:bg-blue-700 transition-all active:scale-[0.98]">
-                            Buka Papan Kanban
-                        </a>
+        <!-- Two Column Grid: Welcome Card & Digital Clock -->
+        <div class="dashboard-top-grid">
+            <!-- Welcome Card (Left Column) -->
+            <div class="welcome-card">
+                <div class="welcome-header">
+                    <h2 class="welcome-title">Selamat Datang Kembali,<br>{{ Auth::user()->name }}</h2>
+                </div>
+                <p class="welcome-subtitle">
+                    Kelola tugas Anda dengan efisien, pantau progress, dan raih produktivitas maksimal hari ini.
+                </p>
+                <div class="stats-section">
+                    <div class="stats-label">Status Produktivitas</div>
+                    <div class="stats-badge">
+                        <span class="stats-badge-icon">📈</span>
+                        <span>Meningkat (vs minggu lalu)</span>
                     </div>
                 </div>
             </div>
 
-            <div
-                class="group bg-white p-8 rounded-2xl border border-[#19140015] shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all">
-                <div class="flex flex-col h-full">
-                    <h3 class="text-xl font-bold mb-3">Manajemen Board</h3>
-                    <p class="text-gray-500 text-sm mb-6 leading-relaxed">
-                        Buat dan atur kategori papan proyekmu agar tetap terorganisir dengan rapi.
-                    </p>
-                    <div class="mt-auto flex gap-3">
-                        <a href="{{ route('boards.index') }}"
-                            class="inline-flex items-center justify-center w-full sm:w-auto px-6 py-3 rounded-xl border border-[#19140035] text-sm font-bold text-gray-700 hover:bg-gray-50 transition-all active:scale-[0.98]">
-                            Lihat Semua Board
-                        </a>
+            <!-- Digital Clock (Right Column) -->
+            <div class="digital-clock-container">
+                <div class="clock-content">
+                    <div class="clock-icon-wrapper">
+                        <div class="clock-icon">⏰</div>
+                    </div>
+                    <div class="clock-info">
+                        <div class="clock-time">
+                            <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds"
+                                class="clock-seconds">00</span>
+                        </div>
+                        <div class="clock-date" id="dateDisplay">Loading...</div>
+                        <div class="clock-greeting" id="greeting">Selamat Bekerja! 🚀</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="mt-12 p-8 bg-blue-50/50 rounded-2xl border border-blue-100 flex items-center justify-between mb-10">
-            <div>
-                <p class="text-blue-800 font-bold">Produktivitas Tip:</p>
-                <p class="text-blue-600/80 text-sm">Fokus pada satu tugas utama hari ini untuk hasil maksimal!</p>
+        <!-- Quick Actions -->
+        <div class="quick-actions-container">
+            <h3 class="quick-actions-title">Aksi Cepat</h3>
+            <div class="quick-actions-grid">
+                <a href="{{ route('tasks.index') }}" class="quick-action-btn">
+                    <div class="quick-action-icon">✅</div>
+                    <div class="quick-action-label">Lihat Tugas</div>
+                </a>
+                <a href="{{ route('boards.index') }}" class="quick-action-btn">
+                    <div class="quick-action-icon">📋</div>
+                    <div class="quick-action-label">Kelola Board</div>
+                </a>
+                <a href="#" class="quick-action-btn" onclick="alert('Fitur segera hadir!'); return false;">
+                    <div class="quick-action-icon">📊</div>
+                    <div class="quick-action-label">Statistik</div>
+                </a>
+                <a href="#" class="quick-action-btn" onclick="alert('Fitur segera hadir!'); return false;">
+                    <div class="quick-action-icon">⚙️</div>
+                    <div class="quick-action-label">Pengaturan</div>
+                </a>
             </div>
-            <div class="hidden sm:block text-3xl">🚀</div>
         </div>
+
+        <!-- Recent Activity -->
+        <div class="recent-activity-container">
+            <h3 class="recent-activity-title">Aktivitas Terbaru</h3>
+            <div class="activity-list">
+                <div class="activity-item">
+                    <div class="activity-icon blue">
+                        <span>✓</span>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-text">Anda menyelesaikan tugas "Setup Project"</div>
+                        <div class="activity-time">2 jam yang lalu</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon green">
+                        <span>+</span>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-text">Board baru "Q1 2026 Goals" telah dibuat</div>
+                        <div class="activity-time">5 jam yang lalu</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon purple">
+                        <span>★</span>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-text">Anda mencapai streak 7 hari produktif!</div>
+                        <div class="activity-time">Kemarin</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- Right Sidebar Container -->
@@ -660,35 +1052,69 @@
     </div>
 
     <script>
-        function checkScrollPosition() {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const scrollHeight = document.documentElement.scrollHeight;
-            const clientHeight = document.documentElement.clientHeight;
+        // Real-time Digital Clock
+        function updateClock() {
+            const now = new Date();
 
-            // Toleransi 5px untuk mendeteksi apakah sudah mentok bawah
-            const isAtBottom = scrollTop + clientHeight >= scrollHeight - 5;
+            // Get time components
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
 
-            const pageBorder = document.querySelector('.page-border');
-            const bottomFrame = document.querySelector('.frame-border-bottom');
+            // Update time display
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
 
-            if (isAtBottom) {
-                pageBorder.classList.add('at-bottom');
-                bottomFrame.classList.add('visible');
+            // Get date components
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            ];
+
+            const dayName = days[now.getDay()];
+            const date = now.getDate();
+            const monthName = months[now.getMonth()];
+            const year = now.getFullYear();
+
+            // Update date display
+            const dateString = `${dayName}, ${date} ${monthName} ${year}`;
+            document.getElementById('dateDisplay').textContent = dateString;
+
+            // Update greeting based on time
+            const greetingEl = document.getElementById('greeting');
+            const hour = now.getHours();
+
+            if (hour >= 5 && hour < 11) {
+                greetingEl.textContent = 'Selamat Pagi! ☀️';
+            } else if (hour >= 11 && hour < 15) {
+                greetingEl.textContent = 'Selamat Siang! 🌤️';
+            } else if (hour >= 15 && hour < 18) {
+                greetingEl.textContent = 'Selamat Sore! 🌅';
             } else {
-                pageBorder.classList.remove('at-bottom');
-                bottomFrame.classList.remove('visible');
+                greetingEl.textContent = 'Selamat Malam! 🌙';
             }
         }
 
-        window.addEventListener('scroll', checkScrollPosition);
-        window.addEventListener('load', checkScrollPosition);
-        window.addEventListener('resize', checkScrollPosition);
+        // Update clock immediately and then every second
+        updateClock();
+        setInterval(updateClock, 1000);
 
-        // Toggle sidebar function
+        // Toggle sidebar function with chevron icon change
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('collapsed');
+            const chevronIcon = document.getElementById('chevronIcon');
+            const isCollapsed = sidebar.classList.toggle('collapsed');
             document.body.classList.toggle('sidebar-collapsed');
+
+            // Change chevron direction instantly
+            if (isCollapsed) {
+                // Chevron Right (>) when collapsed
+                chevronIcon.innerHTML = '<polyline points="9 18 15 12 9 6"></polyline>';
+            } else {
+                // Chevron Left (<) when expanded
+                chevronIcon.innerHTML = '<polyline points="15 18 9 12 15 6"></polyline>';
+            }
         }
 
         // Generate calendar
