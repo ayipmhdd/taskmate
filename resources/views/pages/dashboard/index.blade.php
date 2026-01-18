@@ -6,139 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - TaskMate</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    <style>
-        /* Hide scrollbar in main content but keep scroll functionality */
-        .main-content {
-            scrollbar-width: none;
-            /* Firefox */
-            -ms-overflow-style: none;
-            /* IE and Edge */
-        }
-
-        .main-content::-webkit-scrollbar {
-            display: none;
-            /* Chrome, Safari, Opera */
-        }
-
-        /* Sidebar collapsed state */
-        .sidebar.collapsed {
-            width: 80px;
-        }
-
-        .sidebar.collapsed .sidebar-text {
-            display: none;
-        }
-
-        .sidebar.collapsed .profile-card {
-            display: none;
-        }
-
-        .sidebar.collapsed .sidebar-header {
-            justify-content: center;
-        }
-
-        .sidebar.collapsed .menu-item {
-            text-align: center;
-            padding: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .sidebar.collapsed .menu-icon {
-            display: block;
-        }
-
-        /* Floating toggle button */
-        .floating-toggle {
-            position: fixed;
-            top: 50%;
-            left: 268px;
-            /* 24px margin + 256px sidebar - 12px offset */
-            transform: translateY(-50%);
-            width: 26px;
-            height: 26px;
-            background: white;
-            border: 1.5px solid #e5e5e5;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 10001;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            opacity: 0;
-            transition: left 0.3s ease, opacity 0.15s ease, background 0.1s ease, border-color 0.1s ease;
-        }
-
-        .toggle-hover-area {
-            position: fixed;
-            top: 0;
-            left: 256px;
-            /* 24px margin + 256px sidebar - 24px */
-            width: 48px;
-            height: 100%;
-            z-index: 10000;
-            transition: left 0.3s ease;
-        }
-
-        .toggle-hover-area:hover+.floating-toggle,
-        .floating-toggle:hover {
-            opacity: 1;
-        }
-
-        .floating-toggle:hover {
-            background: #f9fafb;
-            border-color: #d1d5db;
-        }
-
-        .floating-toggle:active {
-            transform: translateY(-50%) scale(0.92);
-        }
-
-        .floating-toggle svg {
-            width: 12px;
-            height: 12px;
-        }
-
-        body.sidebar-collapsed .floating-toggle {
-            left: 116px;
-            /* 24px margin + 80px collapsed sidebar + 12px offset */
-        }
-
-        body.sidebar-collapsed .toggle-hover-area {
-            left: 104px;
-            /* 24px margin + 80px collapsed sidebar */
-        }
-
-        .menu-icon {
-            display: none;
-        }
-    </style>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('assets/TaskMate.svg') }}">
 </head>
 
-<body class="h-screen w-full font-sans antialiased text-[#1b1b18] overflow-hidden p-0 m-0 box-border">
+<body class="group/body h-screen w-full font-sans antialiased text-[#1b1b18] overflow-hidden p-0 m-0 box-border">
 
-    <!-- Floating Toggle Hover Area -->
-    <div class="toggle-hover-area"></div>
-
-    <!-- Floating Chevron Toggle Button -->
-    <button class="floating-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
-        <svg id="chevronIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-            stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-    </button>
+    <!-- Floating Toggle Hover Area (Group Trigger) -->
+    <div
+        class="group/toggle fixed top-0 left-[256px] w-12 h-full z-[10000] transition-all duration-300 ease-in-out body-[.sidebar-collapsed]:left-[104px]">
+        <!-- Floating Chevron Toggle Button -->
+        <button onclick="toggleSidebar()" aria-label="Toggle Sidebar"
+            class="fixed top-1/2 left-[268px] -translate-y-1/2 w-[26px] h-[26px] bg-white border-[1.5px] border-gray-300 rounded-full flex items-center justify-center cursor-pointer z-[10001] shadow-[0_2px_8px_rgba(0,0,0,0.08)] opacity-0 transition-all duration-300 ease-in-out hover:opacity-100 hover:bg-gray-50 hover:border-gray-400 active:scale-90 group-hover/toggle:opacity-100 body-[.sidebar-collapsed]:left-[116px]">
+            <svg id="chevronIcon" class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+    </div>
 
     <!-- Main Flexbox Container (Zero-Scroll Wrapper) -->
     <div class="flex h-screen w-full overflow-hidden">
 
-        <!-- Column 1: Sidebar (Fixed Width - 256px when open, 80px when collapsed) -->
+        <!-- Column 1: Sidebar (Tailwind Width Classes: w-64 open, w-20 collapsed) -->
         <aside id="sidebar"
-            class="sidebar flex-shrink-0 w-64 bg-white rounded-2xl m-6 mr-0 px-4 py-6 z-[100] overflow-y-auto shadow-[0_4px_20px_rgba(0,0,0,0.05)] border-2 border-gray-200 flex flex-col transition-all duration-300 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            class="sidebar flex-shrink-0 w-64 bg-white rounded-2xl m-6 mr-0 px-4 py-6 z-[100] overflow-y-auto shadow-[0_4px_20px_rgba(0,0,0,0.05)] border-2 border-gray-200 flex flex-col transition-all duration-300 ease-in-out [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             <!-- Logo Header -->
-            <div class="mb-6 sidebar-header flex items-center gap-3">
+            <div class="mb-6 sidebar-header flex items-center gap-3 transition-all duration-300 ease-in-out">
                 <!-- Logo SVG -->
                 <img src="{{ asset('assets/TaskMate.svg') }}" alt="TaskMate Logo" class="h-8 w-8 flex-shrink-0">
 
@@ -189,8 +82,9 @@
             </div>
         </aside>
 
-        <!-- Column 2: Main Content (Flexible - flex-1) -->
-        <main class="main-content flex-1 overflow-hidden transition-all duration-300 p-6 pl-6 flex flex-col gap-4">
+        <!-- Column 2: Main Content (Flexible - flex-1, Scrollbar Hidden) -->
+        <main
+            class="main-content flex-1 overflow-hidden transition-all duration-300 ease-in-out p-6 pl-6 flex flex-col gap-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
 
             <!-- Row 1: Welcome + Clock (50/50 Split) -->
             <div class="grid grid-cols-2 gap-4 flex-shrink-0">
@@ -410,57 +304,50 @@
         </main>
 
         <!-- Column 3: Right Widgets (Fixed Width - 256px) -->
-        <aside class="flex-shrink-0 w-64 m-6 ml-0 z-[100] flex flex-col gap-4">
-            <!-- Calendar Box -->
-            <div
-                class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] border-2 border-gray-200 flex-[7] flex flex-col min-h-0">
-                <!-- Calendar Header Image with Proper Alignment -->
-                <div class="px-2.5 pt-2.5">
-                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=250&h=140&fit=crop"
-                        alt="Calendar header" class="w-full h-[140px] object-cover rounded-xl">
-                </div>
-
-                <div
-                    class="px-2.5 pb-2.5 pt-3 flex-1 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-                    <!-- Calendar Widget -->
-                    <div class="mb-0 w-full">
-                        <div class="flex items-center justify-center gap-1.5 mb-2">
-                            <span id="calendar-month" class="text-xs font-bold text-[#1b1b18]">January</span>
-                            <span id="calendar-year" class="text-xs font-normal text-gray-500">2026</span>
-                        </div>
-
-                        <div id="calendar-grid" class="grid grid-cols-7 gap-0 mt-0.5 w-full">
-                            <!-- Calendar will be generated by JavaScript -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Agenda Box -->
-            <div
-                class="bg-white rounded-2xl p-3 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border-2 border-gray-200 flex-[3] overflow-y-auto flex flex-col [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden min-h-0">
-                <h3 class="text-xs font-bold text-[#1b1b18] mb-2 pb-2 border-b-2 border-gray-200">Today's Agenda</h3>
-                <div class="text-center py-3 px-2 text-gray-400 text-[10px]">
-                    No events scheduled for today
-                </div>
-            </div>
-        </aside>
+        @include('components.kalender')
 
     </div>
 
     <script>
-        // Toggle Sidebar
+        // Toggle Sidebar (Pure Tailwind Class Manipulation)
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const chevronIcon = document.getElementById('chevronIcon');
+            const body = document.body;
 
-            sidebar.classList.toggle('collapsed');
-            document.body.classList.toggle('sidebar-collapsed');
+            // Toggle sidebar width: w-64 (256px) <-> w-20 (80px)
+            sidebar.classList.toggle('w-64');
+            sidebar.classList.toggle('w-20');
 
-            // Update chevron direction instantly
-            if (sidebar.classList.contains('collapsed')) {
+            // Toggle sidebar-collapsed class on body for floating toggle positioning
+            body.classList.toggle('sidebar-collapsed');
+
+            // Hide/show text elements
+            const sidebarTexts = sidebar.querySelectorAll('.sidebar-text');
+            const profileCard = sidebar.querySelector('.profile-card');
+            const sidebarHeader = sidebar.querySelector('.sidebar-header');
+            const menuItems = sidebar.querySelectorAll('.menu-item');
+            const menuIcons = sidebar.querySelectorAll('.menu-icon');
+
+            if (sidebar.classList.contains('w-20')) {
+                // Collapsed state
+                sidebarTexts.forEach(el => el.classList.add('hidden'));
+                if (profileCard) profileCard.classList.add('hidden');
+                if (sidebarHeader) sidebarHeader.classList.add('justify-center');
+                menuItems.forEach(el => {
+                    el.classList.add('justify-center', 'p-3');
+                });
+                menuIcons.forEach(el => el.classList.remove('hidden'));
                 chevronIcon.innerHTML = '<polyline points="9 18 15 12 9 6"></polyline>';
             } else {
+                // Expanded state
+                sidebarTexts.forEach(el => el.classList.remove('hidden'));
+                if (profileCard) profileCard.classList.remove('hidden');
+                if (sidebarHeader) sidebarHeader.classList.remove('justify-center');
+                menuItems.forEach(el => {
+                    el.classList.remove('justify-center', 'p-3');
+                });
+                menuIcons.forEach(el => el.classList.add('hidden'));
                 chevronIcon.innerHTML = '<polyline points="15 18 9 12 15 6"></polyline>';
             }
         }
@@ -493,72 +380,6 @@
             else if (hour < 18) greeting = 'Good Afternoon!';
 
             document.getElementById('clock-greeting').textContent = greeting;
-        }
-
-        // Calendar
-        function generateCalendar() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = now.getMonth();
-            const today = now.getDate();
-
-            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
-                'October', 'November', 'December'
-            ];
-            document.getElementById('calendar-month').textContent = months[month];
-            document.getElementById('calendar-year').textContent = year;
-
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const daysInPrevMonth = new Date(year, month, 0).getDate();
-
-            const calendarGrid = document.getElementById('calendar-grid');
-            calendarGrid.innerHTML = '';
-
-            // Day names
-            const dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-            dayNames.forEach(day => {
-                const dayEl = document.createElement('div');
-                dayEl.className = 'text-center text-[8px] font-semibold text-gray-500 py-0.5';
-                dayEl.textContent = day;
-                calendarGrid.appendChild(dayEl);
-            });
-
-            // Previous month days
-            for (let i = firstDay - 1; i >= 0; i--) {
-                const dayEl = document.createElement('div');
-                dayEl.className =
-                    'aspect-[1.5/1] flex items-center justify-center text-[10px] rounded cursor-pointer transition-all duration-200 text-gray-300 hover:bg-gray-100';
-                dayEl.textContent = daysInPrevMonth - i;
-                calendarGrid.appendChild(dayEl);
-            }
-
-            // Current month days
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dayEl = document.createElement('div');
-                let classes =
-                    'aspect-[1.5/1] flex items-center justify-center text-[10px] rounded cursor-pointer transition-all duration-200 hover:bg-gray-100';
-
-                if (day === today) {
-                    classes =
-                        'aspect-[1.5/1] flex items-center justify-center text-[10px] rounded cursor-pointer transition-all duration-200 bg-blue-500 text-white font-bold';
-                }
-
-                dayEl.className = classes;
-                dayEl.textContent = day;
-                calendarGrid.appendChild(dayEl);
-            }
-
-            // Next month days
-            const totalCells = calendarGrid.children.length - 7;
-            const remainingCells = 42 - totalCells - 7;
-            for (let day = 1; day <= remainingCells; day++) {
-                const dayEl = document.createElement('div');
-                dayEl.className =
-                    'aspect-[1.5/1] flex items-center justify-center text-[10px] rounded cursor-pointer transition-all duration-200 text-gray-300 hover:bg-gray-100';
-                dayEl.textContent = day;
-                calendarGrid.appendChild(dayEl);
-            }
         }
 
         // Initialize
