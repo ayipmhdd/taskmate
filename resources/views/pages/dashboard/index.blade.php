@@ -12,13 +12,13 @@
 <body class="group/body h-screen w-full font-sans antialiased text-[#1b1b18] overflow-hidden p-0 m-0 box-border">
 
     <!-- Floating Toggle Hover Area (Group Trigger) -->
-    <div
-        class="group/toggle fixed top-0 left-[256px] w-12 h-full z-[10000] transition-all duration-300 ease-in-out body-[.sidebar-collapsed]:left-[104px]">
+    <div id="toggleArea"
+        class="group/toggle fixed top-0 left-[256px] w-12 h-full z-[10000] transition-all duration-300 ease-in-out">
         <!-- Floating Chevron Toggle Button -->
-        <button onclick="toggleSidebar()" aria-label="Toggle Sidebar"
-            class="fixed top-1/2 left-[268px] -translate-y-1/2 w-[26px] h-[26px] bg-white border-[1.5px] border-gray-300 rounded-full flex items-center justify-center cursor-pointer z-[10001] shadow-[0_2px_8px_rgba(0,0,0,0.08)] opacity-0 transition-all duration-300 ease-in-out hover:opacity-100 hover:bg-gray-50 hover:border-gray-400 active:scale-90 group-hover/toggle:opacity-100 body-[.sidebar-collapsed]:left-[116px]">
-            <svg id="chevronIcon" class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <button id="toggleButton" onclick="toggleSidebar()" aria-label="Toggle Sidebar"
+            class="fixed top-1/2 left-[268px] -translate-y-1/2 w-[32px] h-[32px] bg-white border-2 border-black rounded-lg flex items-center justify-center cursor-pointer z-[10001] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] opacity-0 transition-all duration-300 ease-in-out hover:opacity-100 hover:bg-[#4ade80] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[-49%] active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[-48%] group-hover/toggle:opacity-100">
+            <svg id="chevronIcon" class="w-4 h-4 font-black" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
         </button>
@@ -98,31 +98,31 @@
 
                 <!-- Digital Clock with Notification -->
                 <div
-                    class="bg-white rounded-[20px] border border-[rgba(25,20,0,0.08)] shadow-[0_8px_30px_rgba(0,0,0,0.02)] p-5 flex flex-col items-center justify-center transition-all duration-300 h-full hover:shadow-[0_8px_30px_rgba(59,130,246,0.08)] hover:border-[rgba(59,130,246,0.1)] relative">
+                    class="bg-white rounded-xl border-[3px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-5 flex flex-col items-center justify-center transition-all duration-200 h-full hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] relative">
                     <!-- Notification Icon (Top Right) -->
                     <div class="absolute top-4 right-4">
                         <div
-                            class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center cursor-pointer hover:shadow-lg transition-all duration-200">
+                            class="w-10 h-10 bg-blue-500 rounded-lg border-2 border-black flex items-center justify-center cursor-pointer hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-200">
                             <span class="text-[18px]">🔔</span>
                         </div>
                     </div>
 
                     <div class="flex flex-col items-center gap-2 w-full">
                         <div
-                            class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-[0_4px_12px_rgba(59,130,246,0.2)]">
+                            class="w-12 h-12 bg-blue-500 rounded-lg border-2 border-black flex items-center justify-center flex-shrink-0 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                             <span class="text-[24px]">🕐</span>
                         </div>
 
                         <div class="flex flex-col gap-0.5">
                             <div id="clock-time"
-                                class="text-4xl font-extrabold text-[#1b1b18] tracking-[-1px] leading-none text-center">
+                                class="text-4xl font-black text-[#1b1b18] tracking-[-1px] leading-none text-center">
                                 00:00:<span class="text-blue-500">00</span>
                             </div>
-                            <div id="clock-date" class="text-xs text-gray-500 font-medium text-center">
+                            <div id="clock-date" class="text-xs text-gray-600 font-bold text-center">
                                 Loading...
                             </div>
                             <div id="clock-greeting"
-                                class="text-[12px] text-[#1b1b18] font-semibold px-3 py-1 bg-blue-50 rounded-lg mt-1.5 text-center">
+                                class="text-[12px] text-black font-black px-3 py-1 bg-[#4ade80] border-2 border-black rounded-lg mt-1.5 text-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                                 Good Morning!
                             </div>
                         </div>
@@ -133,19 +133,21 @@
             <!-- Row 2: Current Task (Compact Horizontal) -->
             <div class="flex-shrink-0">
                 <div
-                    class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-[20px] shadow-[0_8px_30px_rgba(59,130,246,0.15)] p-4 flex items-center gap-4">
+                    class="bg-blue-500 rounded-xl border-[3px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-4 flex items-center gap-4 transition-all duration-200 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                     <div class="flex items-center gap-3 flex-1">
                         <div class="text-2xl">📝</div>
                         <div class="flex-1">
-                            <h3 class="text-sm font-bold text-white mb-0.5">Tugas Saat Ini</h3>
-                            <p class="text-xs text-white/90">Review project proposal and prepare presentation</p>
+                            <h3 class="text-sm font-black text-white mb-0.5">Tugas Saat Ini</h3>
+                            <p class="text-xs text-white font-medium">Review project proposal and prepare presentation
+                            </p>
                         </div>
                     </div>
                     <div class="flex items-center gap-3 min-w-[200px]">
-                        <div class="flex-1 bg-white/20 rounded-full h-2">
-                            <div class="bg-white h-2 rounded-full transition-all duration-300" style="width: 75%"></div>
+                        <div class="flex-1 bg-white/30 rounded-full h-2 border-2 border-black">
+                            <div class="bg-white h-full rounded-full transition-all duration-300 border-r-2 border-black"
+                                style="width: 75%"></div>
                         </div>
-                        <span class="text-xs font-semibold text-white whitespace-nowrap">75%</span>
+                        <span class="text-xs font-black text-white whitespace-nowrap">75%</span>
                     </div>
                 </div>
             </div>
@@ -154,12 +156,12 @@
             <div class="grid grid-cols-[1fr_2fr] gap-4 flex-shrink-0">
                 <!-- Focus Mode (Compact) -->
                 <div
-                    class="bg-white rounded-[20px] border border-[rgba(25,20,0,0.08)] shadow-[0_8px_30px_rgba(0,0,0,0.02)] p-4 flex items-center gap-3">
+                    class="bg-white rounded-xl border-[3px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-4 flex items-center gap-3 transition-all duration-200 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                     <div class="text-3xl">🎯</div>
                     <div class="flex-1">
-                        <h3 class="text-sm font-bold text-[#1b1b18] mb-1.5">Focus Mode</h3>
+                        <h3 class="text-sm font-black text-[#1b1b18] mb-1.5">Focus Mode</h3>
                         <button
-                            class="px-4 py-1.5 bg-gradient-to-br from-blue-500 to-blue-600 text-white text-xs font-semibold rounded-lg hover:shadow-lg transition-all duration-200">
+                            class="px-4 py-1.5 bg-blue-500 text-white text-xs font-black rounded-lg border-2 border-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200">
                             Start Session
                         </button>
                     </div>
@@ -167,28 +169,28 @@
 
                 <!-- Quick Actions (Compact Grid) -->
                 <div
-                    class="bg-white rounded-[20px] border border-[rgba(25,20,0,0.08)] shadow-[0_8px_30px_rgba(0,0,0,0.02)] p-4">
-                    <h3 class="text-sm font-bold text-[#1b1b18] mb-3">Quick Actions</h3>
+                    class="bg-white rounded-xl border-[3px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-4 transition-all duration-200 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                    <h3 class="text-sm font-black text-[#1b1b18] mb-3">Quick Actions</h3>
                     <div class="grid grid-cols-4 gap-2">
                         <a href="#"
-                            class="flex flex-col items-center justify-center p-3 bg-gray-50 border border-gray-200 rounded-xl no-underline transition-all duration-200 cursor-pointer hover:bg-blue-50 hover:border-blue-500 hover:translate-y-[-2px] hover:shadow-[0_4px_12px_rgba(59,130,246,0.15)]">
+                            class="flex flex-col items-center justify-center p-3 bg-white border-2 border-black rounded-lg no-underline transition-all duration-200 cursor-pointer hover:bg-[#4ade80] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px]">
                             <span class="text-[20px] mb-1">➕</span>
-                            <span class="text-[10px] font-semibold text-[#1b1b18] text-center">New Task</span>
+                            <span class="text-[10px] font-black text-[#1b1b18] text-center">New Task</span>
                         </a>
                         <a href="#"
-                            class="flex flex-col items-center justify-center p-3 bg-gray-50 border border-gray-200 rounded-xl no-underline transition-all duration-200 cursor-pointer hover:bg-blue-50 hover:border-blue-500 hover:translate-y-[-2px] hover:shadow-[0_4px_12px_rgba(59,130,246,0.15)]">
+                            class="flex flex-col items-center justify-center p-3 bg-white border-2 border-black rounded-lg no-underline transition-all duration-200 cursor-pointer hover:bg-[#4ade80] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px]">
                             <span class="text-[20px] mb-1">📁</span>
-                            <span class="text-[10px] font-semibold text-[#1b1b18] text-center">Project</span>
+                            <span class="text-[10px] font-black text-[#1b1b18] text-center">Project</span>
                         </a>
                         <a href="#"
-                            class="flex flex-col items-center justify-center p-3 bg-gray-50 border border-gray-200 rounded-xl no-underline transition-all duration-200 cursor-pointer hover:bg-blue-50 hover:border-blue-500 hover:translate-y-[-2px] hover:shadow-[0_4px_12px_rgba(59,130,246,0.15)]">
+                            class="flex flex-col items-center justify-center p-3 bg-white border-2 border-black rounded-lg no-underline transition-all duration-200 cursor-pointer hover:bg-[#4ade80] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px]">
                             <span class="text-[20px] mb-1">👥</span>
-                            <span class="text-[10px] font-semibold text-[#1b1b18] text-center">Team</span>
+                            <span class="text-[10px] font-black text-[#1b1b18] text-center">Team</span>
                         </a>
                         <a href="#"
-                            class="flex flex-col items-center justify-center p-3 bg-gray-50 border border-gray-200 rounded-xl no-underline transition-all duration-200 cursor-pointer hover:bg-blue-50 hover:border-blue-500 hover:translate-y-[-2px] hover:shadow-[0_4px_12px_rgba(59,130,246,0.15)]">
+                            class="flex flex-col items-center justify-center p-3 bg-white border-2 border-black rounded-lg no-underline transition-all duration-200 cursor-pointer hover:bg-[#4ade80] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px]">
                             <span class="text-[20px] mb-1">📊</span>
-                            <span class="text-[10px] font-semibold text-[#1b1b18] text-center">Reports</span>
+                            <span class="text-[10px] font-black text-[#1b1b18] text-center">Reports</span>
                         </a>
                     </div>
                 </div>
@@ -197,8 +199,8 @@
             <!-- Row 4: Recent Activity (Flexible Height with Internal Scroll) -->
             <div class="flex-1 overflow-hidden min-h-0">
                 <div
-                    class="bg-white rounded-[20px] border border-[rgba(25,20,0,0.08)] shadow-[0_8px_30px_rgba(0,0,0,0.02)] p-5 h-full flex flex-col">
-                    <h3 class="text-sm font-bold text-[#1b1b18] mb-3 pb-2 border-b-2 border-gray-100 flex-shrink-0">
+                    class="bg-white rounded-xl border-[3px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-5 h-full flex flex-col">
+                    <h3 class="text-sm font-black text-[#1b1b18] mb-3 pb-2 border-b-[3px] border-black flex-shrink-0">
                         Recent Activity</h3>
 
                     <!-- Scrollable Activity List -->
@@ -313,6 +315,8 @@
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const chevronIcon = document.getElementById('chevronIcon');
+            const toggleButton = document.getElementById('toggleButton');
+            const toggleArea = document.getElementById('toggleArea');
             const body = document.body;
 
             // Toggle sidebar width: w-64 (256px) <-> w-20 (80px)
@@ -330,7 +334,7 @@
             const menuIcons = sidebar.querySelectorAll('.menu-icon');
 
             if (sidebar.classList.contains('w-20')) {
-                // Collapsed state
+                // Collapsed state (w-20 = 80px + margin 24px = 104px)
                 sidebarTexts.forEach(el => el.classList.add('hidden'));
                 if (profileCard) profileCard.classList.add('hidden');
                 if (sidebarHeader) sidebarHeader.classList.add('justify-center');
@@ -339,8 +343,12 @@
                 });
                 menuIcons.forEach(el => el.classList.remove('hidden'));
                 chevronIcon.innerHTML = '<polyline points="9 18 15 12 9 6"></polyline>';
+
+                // Update toggle button and area position for collapsed state
+                toggleArea.style.left = '104px'; // 80px sidebar + 24px margin
+                toggleButton.style.left = '116px'; // 104px + 12px offset
             } else {
-                // Expanded state
+                // Expanded state (w-64 = 256px + margin 24px = 280px)
                 sidebarTexts.forEach(el => el.classList.remove('hidden'));
                 if (profileCard) profileCard.classList.remove('hidden');
                 if (sidebarHeader) sidebarHeader.classList.remove('justify-center');
@@ -349,6 +357,10 @@
                 });
                 menuIcons.forEach(el => el.classList.add('hidden'));
                 chevronIcon.innerHTML = '<polyline points="15 18 9 12 15 6"></polyline>';
+
+                // Update toggle button and area position for expanded state
+                toggleArea.style.left = '256px'; // 256px sidebar width
+                toggleButton.style.left = '268px'; // 256px + 12px offset
             }
         }
 
