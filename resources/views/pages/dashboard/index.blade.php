@@ -29,7 +29,7 @@
 
         <!-- Column 1: Sidebar (Tailwind Width Classes: w-64 open, w-20 collapsed) -->
         <aside id="sidebar"
-            class="sidebar flex-shrink-0 w-64 bg-white rounded-2xl m-6 mr-0 px-4 py-6 z-[100] overflow-y-auto shadow-[0_4px_20px_rgba(0,0,0,0.05)] border-2 border-gray-200 flex flex-col transition-all duration-300 ease-in-out [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            class="sidebar flex-shrink-0 w-64 bg-white rounded-xl m-6 mr-0 px-4 py-6 z-[100] overflow-y-auto border-[3px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col transition-all duration-300 ease-in-out [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             <!-- Logo Header -->
             <div class="mb-6 sidebar-header flex items-center gap-3 transition-all duration-300 ease-in-out">
                 <!-- Logo SVG -->
@@ -43,26 +43,26 @@
 
             <!-- Profile Card (Horizontal Layout) -->
             <div
-                class="profile-card bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 mb-6 flex items-center gap-3">
+                class="profile-card bg-[#4ade80] rounded-lg p-4 mb-6 flex items-center gap-3 border-[3px] border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                 <!-- Avatar Circle (Left Side) -->
                 <div
-                    class="w-12 h-12 rounded-full bg-white flex items-center justify-center flex-shrink-0 text-xl font-bold text-blue-500 shadow-[0_4px_12px_rgba(0,0,0,0.1)]">
+                    class="w-12 h-12 rounded-full bg-white flex items-center justify-center flex-shrink-0 text-xl font-black text-black border-2 border-black">
                     {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                 </div>
 
                 <!-- User Info (Right Side) -->
                 <div class="sidebar-text flex-1 min-w-0">
-                    <div class="text-white font-bold text-sm mb-0.5 truncate">
+                    <div class="text-black font-black text-sm mb-0.5 truncate">
                         {{ Auth::user()->name }}
                     </div>
-                    <div class="text-white/80 text-[10px] truncate">
+                    <div class="text-black/70 text-[10px] truncate font-bold">
                         {{ Auth::user()->email }}
                     </div>
                 </div>
             </div>
 
             <!-- Menu Items -->
-            <nav class="flex flex-col space-y-1">
+            <nav class="flex flex-col space-y-2">
                 <x-menu-item active icon="🏠" label="Dashboard" href="#" />
                 <x-menu-item icon="✓" label="Tasks" href="#" />
                 <x-menu-item icon="📋" label="Boards" href="#" />
@@ -70,11 +70,11 @@
             </nav>
 
             <!-- Logout Button -->
-            <div class="mt-auto pt-4 border-t border-gray-100">
+            <div class="mt-auto pt-4 border-t-[3px] border-black">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit"
-                        class="w-full menu-item block px-4 py-3 rounded-lg text-sm font-semibold cursor-pointer transition-all duration-200 text-red-500 hover:bg-red-50 hover:text-red-600">
+                        class="w-full menu-item block px-4 py-3 rounded-lg text-sm font-black cursor-pointer transition-all duration-200 text-black bg-white border-2 border-black hover:bg-red-500 hover:text-white hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px]">
                         <span class="menu-icon hidden text-xl">🚪</span>
                         <span class="sidebar-text">Logout</span>
                     </button>

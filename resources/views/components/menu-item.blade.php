@@ -7,10 +7,10 @@
 
 @php
     $classes =
-        'menu-item block px-4 py-3 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 text-gray-500 hover:bg-gray-100 hover:text-[#1b1b18]';
+        'menu-item block px-4 py-3 rounded-lg text-sm font-bold cursor-pointer transition-all duration-200 text-black bg-white border-2 border-black hover:bg-gray-100 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px]';
     if ($active) {
         $classes =
-            'menu-item block px-4 py-3 rounded-lg text-sm font-semibold cursor-pointer transition-all duration-200 bg-blue-50 text-blue-500';
+            'menu-item block px-4 py-3 rounded-lg text-sm font-black cursor-pointer transition-all duration-200 bg-[#4ade80] text-black border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]';
     }
 @endphp
 
