@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - TaskMate</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="icon" type="image/svg+xml" href="{{ asset('assets/TaskMate.svg') }}">
 </head>
 
@@ -310,95 +310,7 @@
 
     </div>
 
-    <script>
-        // Toggle Sidebar (Pure Tailwind Class Manipulation)
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const chevronIcon = document.getElementById('chevronIcon');
-            const toggleButton = document.getElementById('toggleButton');
-            const toggleArea = document.getElementById('toggleArea');
-            const body = document.body;
-
-            // Toggle sidebar width: w-64 (256px) <-> w-20 (80px)
-            sidebar.classList.toggle('w-64');
-            sidebar.classList.toggle('w-20');
-
-            // Toggle sidebar-collapsed class on body for floating toggle positioning
-            body.classList.toggle('sidebar-collapsed');
-
-            // Hide/show text elements
-            const sidebarTexts = sidebar.querySelectorAll('.sidebar-text');
-            const profileCard = sidebar.querySelector('.profile-card');
-            const sidebarHeader = sidebar.querySelector('.sidebar-header');
-            const menuItems = sidebar.querySelectorAll('.menu-item');
-            const menuIcons = sidebar.querySelectorAll('.menu-icon');
-
-            if (sidebar.classList.contains('w-20')) {
-                // Collapsed state (w-20 = 80px + margin 24px = 104px)
-                sidebarTexts.forEach(el => el.classList.add('hidden'));
-                if (profileCard) profileCard.classList.add('hidden');
-                if (sidebarHeader) sidebarHeader.classList.add('justify-center');
-                menuItems.forEach(el => {
-                    el.classList.add('justify-center', 'p-3');
-                });
-                menuIcons.forEach(el => el.classList.remove('hidden'));
-                chevronIcon.innerHTML = '<polyline points="9 18 15 12 9 6"></polyline>';
-
-                // Update toggle button and area position for collapsed state
-                toggleArea.style.left = '104px'; // 80px sidebar + 24px margin
-                toggleButton.style.left = '116px'; // 104px + 12px offset
-            } else {
-                // Expanded state (w-64 = 256px + margin 24px = 280px)
-                sidebarTexts.forEach(el => el.classList.remove('hidden'));
-                if (profileCard) profileCard.classList.remove('hidden');
-                if (sidebarHeader) sidebarHeader.classList.remove('justify-center');
-                menuItems.forEach(el => {
-                    el.classList.remove('justify-center', 'p-3');
-                });
-                menuIcons.forEach(el => el.classList.add('hidden'));
-                chevronIcon.innerHTML = '<polyline points="15 18 9 12 15 6"></polyline>';
-
-                // Update toggle button and area position for expanded state
-                toggleArea.style.left = '256px'; // 256px sidebar width
-                toggleButton.style.left = '268px'; // 256px + 12px offset
-            }
-        }
-
-        // Digital Clock
-        function updateClock() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-
-            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
-                'October', 'November', 'December'
-            ];
-
-            const dayName = days[now.getDay()];
-            const monthName = months[now.getMonth()];
-            const date = now.getDate();
-            const year = now.getFullYear();
-
-            document.getElementById('clock-time').innerHTML =
-                `${hours}:${minutes}:<span class="text-blue-500">${seconds}</span>`;
-            document.getElementById('clock-date').textContent = `${dayName}, ${monthName} ${date}, ${year}`;
-
-            // Update greeting
-            const hour = now.getHours();
-            let greeting = 'Good Evening!';
-            if (hour < 12) greeting = 'Good Morning!';
-            else if (hour < 18) greeting = 'Good Afternoon!';
-
-            document.getElementById('clock-greeting').textContent = greeting;
-        }
-
-        // Initialize
-        updateClock();
-        setInterval(updateClock, 1000);
-        generateCalendar();
-    </script>
+    <script src="{{ asset('js/app.js') }}"></script>
 
 </body>
 

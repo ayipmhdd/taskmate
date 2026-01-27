@@ -9,7 +9,7 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="{{ asset('assets/TaskMate.svg') }}">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 
 <body class="h-full font-sans antialiased text-[#1b1b18]">
